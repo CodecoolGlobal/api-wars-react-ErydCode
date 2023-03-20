@@ -1,0 +1,34 @@
+h1 {
+    margin: 0.2rem;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    gap: 0.4rem;
+}
+
+table {
+    width: 100%;
+    text-align: left;
+    justify-content: center;
+    border-collapse: collapse;
+    border: solid 1px rgba(255, 255, 255, 0.87);
+}
+
+
+table tbody tr {
+    background-color: #121212;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #1a1a1a;
+}
+
+table td,
+table th {
+    border: solid 0.5px rgba(255, 255, 255, 0.87);
+    padding: 0.2rem 0.4rem;
+}
