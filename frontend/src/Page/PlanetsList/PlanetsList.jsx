@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Loading from "../../Component/Loading/Loading";
 import PlanetsTable from "../../Component/PlanetsTable/PlanetsTable";
+import ResidentsModal from "../ResidentsModal/ResidentsModal";
 import "./PlanetsList.css"
 
 const defaultFetchUrl = `http://localhost:777/api/planets/`;
@@ -14,6 +15,8 @@ const PlanetsList = () => {
     const [planets, setPlanets] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [fetchUrl, setFetchUrl] = useState(defaultFetchUrl);
+    const [openModal, setOpenModal] = useState(false);
+    const [planetOnClick, setPlanetOnClick] = useState([]);
 
     useEffect(() => {
         fetchPlanet(fetchUrl)
@@ -28,6 +31,17 @@ const PlanetsList = () => {
         setFetchUrl(`${defaultFetchUrl}?fetchUrl=${navigation}`);
     };
 
+    const handleOpenModal = (planet) => {
+        setPlanetOnClick(planet);
+        setOpenModal(true);
+    };
+
+    const formatingData = (data, unit) => {
+        return data === "unknown" ? data : Number(data).toLocaleString() + (unit === "%" ? unit : ` ${unit}`);
+        //====== Alternative mit RegExp ======
+        // data.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+        // + (data === "unknown" ? "" : unit === "%" ? unit : " " + unit);
+    };
 
     return (
         <div className="mainContainerPlanets">
@@ -38,15 +52,23 @@ const PlanetsList = () => {
                     <>
                         <div className="pagination">
                             {planets.previous === null ?
-                            <button disabled={true} onClick={e => handlePagination(planets.previous)}>Previous</button>:
-                            <button onClick={e => handlePagination(planets.previous)}>Previous</button>
+                                <button disabled={true} onClick={e => handlePagination(planets.previous)}>Previous</button> :
+                                <button onClick={e => handlePagination(planets.previous)}>Previous</button>
                             }
                             {planets.next === null ?
-                            <button disabled={true} onClick={e => handlePagination(planets.next)}>Next</button>:
-                            <button onClick={e => handlePagination(planets.next)}>Next</button>
+                                <button disabled={true} onClick={e => handlePagination(planets.next)}>Next</button> :
+                                <button onClick={e => handlePagination(planets.next)}>Next</button>
                             }
                         </div>
-                        <PlanetsTable planets={planets.results} />
+                        <PlanetsTable planets={planets.results}
+                            handleOpenModal={handleOpenModal}
+                            formatingData={formatingData}
+                        />
+                        <ResidentsModal openModal={openModal}
+                            setOpenModal={setOpenModal}
+                            planetOnClick={planetOnClick}
+                            formatingData={formatingData}
+                        />
                     </>
             }
         </div>

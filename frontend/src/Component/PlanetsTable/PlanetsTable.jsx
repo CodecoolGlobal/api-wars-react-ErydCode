@@ -1,13 +1,6 @@
 import "./PlanetsTable.css";
 
-const PlanetsTable = ({ planets }) => {
-
-    const formatingData = (data, unit) => {
-        return data === "unknown" ? data : Number(data).toLocaleString() + (unit === "%" ? unit : ` ${unit}`);
-        //====== Alternative mit RegExp ======
-        // data.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
-            // + (data === "unknown" ? "" : unit === "%" ? unit : " " + unit);
-    };
+const PlanetsTable = ({ planets, handleOpenModal, formatingData }) => {
     
     return (
         <table>
@@ -19,6 +12,7 @@ const PlanetsTable = ({ planets }) => {
                     <th>Terrain</th>
                     <th>Surface Water</th>
                     <th>Population</th>
+                    <th>Residents</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +24,14 @@ const PlanetsTable = ({ planets }) => {
                         <td>{planet.terrain}</td>
                         <td>{formatingData(planet.surface_water, "%")}</td>
                         <td>{formatingData(planet.population, "people")}</td>
+                        <td>{planet.residents.length > 0 ?
+                            <button onClick={() => handleOpenModal(planet)}>
+                                {planet.residents.length}
+                                {planet.residents.length === 1
+                                    ? " resident"
+                                    : " residents"}</button>
+                            : "No known residents"}
+                        </td>
                     </tr>
                 )}
             </tbody>
