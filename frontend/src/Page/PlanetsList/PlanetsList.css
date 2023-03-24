@@ -1,0 +1,7 @@
+.mainContainerPlanets {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}

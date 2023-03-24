@@ -1,0 +1,36 @@
+nav {
+    width: 98.5vw;
+    margin: -1.5vw;
+    margin-bottom: 1rem;
+    padding: 0.6rem;
+    background-color: #121212;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    align-items: center;
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: white;
+}
+
+nav a {
+    color: white;
+}
+nav a:hover {
+    color: rgb(255, 227, 0);
+    cursor: pointer;
+}
+
+.account {
+    margin-left: auto;
+}
+
+/* .account:hover {
+    color: white;
+} */

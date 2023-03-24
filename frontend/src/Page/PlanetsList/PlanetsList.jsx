@@ -64,11 +64,23 @@ const PlanetsList = () => {
                             handleOpenModal={handleOpenModal}
                             formatingData={formatingData}
                         />
-                        <ResidentsModal openModal={openModal}
-                            setOpenModal={setOpenModal}
-                            planetOnClick={planetOnClick}
-                            formatingData={formatingData}
-                        />
+                        {openModal &&
+                            <ResidentsModal openModal={openModal}
+                                setOpenModal={setOpenModal}
+                                planetOnClick={planetOnClick}
+                                formatingData={formatingData}
+                            />
+                        }
+                        <div className="pagination">
+                            {planets.previous === null ?
+                                <button disabled={true} onClick={e => handlePagination(planets.previous)}>Previous</button> :
+                                <button onClick={e => handlePagination(planets.previous)}>Previous</button>
+                            }
+                            {planets.next === null ?
+                                <button disabled={true} onClick={e => handlePagination(planets.next)}>Next</button> :
+                                <button onClick={e => handlePagination(planets.next)}>Next</button>
+                            }
+                        </div>
                     </>
             }
         </div>
