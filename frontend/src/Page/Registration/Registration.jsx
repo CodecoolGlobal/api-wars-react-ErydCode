@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Registration.css";
 
 const fetchUserToCheck = (usernameInput, setDbUsernameToCheck) => {
-    fetch(`http://localhost:777/api/user/?username=${usernameInput}`)
+    fetch(`http://localhost:777/api/users/?username=${usernameInput}`)
         .then(res => res.json())
         .then(user => {
             user.length > 0 &&
@@ -12,26 +12,31 @@ const fetchUserToCheck = (usernameInput, setDbUsernameToCheck) => {
         .catch(err => console.error(err));
 };
 
+
 const checkUserToSubmit = (fetchedUsername, usernameInput, passwordInput, setIsUserOkToSubmit) => {
     
     if (fetchedUsername !== usernameInput
         && usernameInput !== ""
         && passwordInput !== "") {
-        setIsUserOkToSubmit(true);
-    } else {
-        setIsUserOkToSubmit(false);
+            setIsUserOkToSubmit(true);
+        } else {
+            setIsUserOkToSubmit(false);
+        };
     };
-};
-
+    
 const Registration = ({ isUserRegistered, setIsUserRegistered }) => {
-
+        
+    
     const navigate = useNavigate();
-
+    const timeToRedirec = 6;
+    
     const [usernameInput, setUsernameInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
     const [submmitedValues, setSubmmitedValues] = useState("");
     const [dbUsernameToCheck, setDbUsernameToCheck] = useState("");
     const [isUserOkToSubmit, setIsUserOkToSubmit] = useState(true);
+    const [countdown, setCountdown] = useState(timeToRedirec);
+
 
     useEffect(() => {
         const mainCheckUsername = () => {
@@ -51,7 +56,7 @@ const Registration = ({ isUserRegistered, setIsUserRegistered }) => {
         setSubmmitedValues(formJson);
         
         if (isUserOkToSubmit) {
-            fetch(`http://localhost:777/api/user/registration/`,
+            fetch(`http://localhost:777/api/users/registration/`,
                 {
                     method: "POST",
                     headers: {
@@ -63,10 +68,10 @@ const Registration = ({ isUserRegistered, setIsUserRegistered }) => {
                 })
                 .then((response) => response.json())
                 .then((result) => {
-                    console.log("Success:", result);
+                    console.log("Successfull registration: ", result);
                 })
                 .catch((error) => {
-                    console.error("Error:", error);
+                    console.error("Error: ", error);
                 });
             setIsUserRegistered(true);
             setUsernameInput("");
@@ -74,16 +79,26 @@ const Registration = ({ isUserRegistered, setIsUserRegistered }) => {
 
         } else {
             dbUsernameToCheck === usernameInput && passwordInput !== ""
-            && setUsernameInput("");
+                && setUsernameInput("");
             setIsUserOkToSubmit(false);
             setDbUsernameToCheck("");
         };
     };
     
-    // === Warum funktioniert der Codesnipe mit setTimout nicht im Submit Handler???
     isUserRegistered &&
-        setTimeout(navigate, 3000, "/login");
+        // === Warum funktioniert der Codesnipe mit setTimout nicht im Submit Handler???
+        setTimeout(navigate, timeToRedirec * 1000, "/login");
     
+    useEffect(() => {
+        if (isUserRegistered && countdown >= 0) {
+            const interval = setInterval(() => {
+                setCountdown(prev => prev - 1);
+            }, 1000);
+            return () => clearInterval(interval);
+        };
+    }, [countdown, isUserRegistered]);
+    
+
     return (
         <div className="formContainer">
             <h1>Registration</h1>
@@ -111,14 +126,14 @@ const Registration = ({ isUserRegistered, setIsUserRegistered }) => {
             {
                 submmitedValues !== "" ?
                     submmitedValues.username === "" && submmitedValues.password === "" ?
-                        <p className="errorMessage">Please fill in a Username and Password</p> :
+                        <p className="errorMessage">Please fill in a Username and Password.</p> :
                         submmitedValues.username === "" && submmitedValues.password !== "" ?
-                            <p className="errorMessage">Please fill in a Username</p> :
+                            <p className="errorMessage">Please fill in a Username.</p> :
                             submmitedValues.username !== "" && submmitedValues.password === "" ?
-                                <p className="errorMessage">Please fill in a Password</p> :
+                                <p className="errorMessage">Please fill in a Password.</p> :
                                 isUserRegistered ?
-                                    <p className="successMessage">Successful registration. Log in to continue.<br />
-                                    You will be automatically redirected in 3 seconds</p> :
+                                    <p className="successMessage">Successful registration. Login to continue.<br />
+                                        You will be automatically redirected in {countdown} seconds.</p> :
                                     isUserOkToSubmit === false &&
                                     <p className="errorMessage">Username already exists, please choose another one!</p> :
                     ""

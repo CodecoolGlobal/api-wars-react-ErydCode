@@ -1,7 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 import "./Navigation.css";
 
-const Navigation = ({ isUserRegistered,  isUserLogedIn, setIsUserLogedIn }) => {
+const Navigation = ({ isUserRegistered, isUserLogedIn, setIsUserLogedIn, username }) => {
 
     return (
         <>
@@ -24,7 +24,7 @@ const Navigation = ({ isUserRegistered,  isUserLogedIn, setIsUserLogedIn }) => {
                             <Link to="/logout" onClick={() => setIsUserLogedIn(false)}>Logout</Link>}
                     </li>
                     {isUserLogedIn &&
-                        <li className="account">Signed in as { }</li>}
+                        <li className="account">Signed in as {username}</li>}
                 </ul>
             </nav>
             <Outlet />

@@ -12,7 +12,7 @@ const mongoUrl = "mongodb://localhost/api-wars";
 // Middle Ware Function
 app.use(cors());
 app.use(express.json());
-app.use("/api/user/", registration);
+app.use("/api/users/", registration);
 
 // Routs
 app.get("/api/planets/", (req, res) => {

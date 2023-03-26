@@ -25,7 +25,7 @@ const ResidentsModal = ({ openModal, setOpenModal, planetOnClick, formatingData 
     const closeModal = () => {
         setOpenModal(false);
         setResidents([]);
-        loader(true);
+        setIsLoading(true);
     };
 
     return (

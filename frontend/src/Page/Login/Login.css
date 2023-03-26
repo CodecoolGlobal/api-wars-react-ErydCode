@@ -1,0 +1,50 @@
+.formContainer {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    gap: 1rem
+}
+
+.formContainer h1 {
+    margin-bottom: 2.8rem;
+}
+
+.formContainer form {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 1rem;
+}
+
+.formContainer label {
+    display: flex;
+    flex-flow: column wrap;
+    text-align: center;
+    gap: 0.2rem;
+}
+
+.formContainer input {
+    border-radius: 4px;
+    height: 1.8rem;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+#username {
+    text-transform: lowercase;
+}
+
+.formContainer p {
+    margin-top: -0.8rem;
+}
+
+.errorMessage {
+    color: rgb(255, 50, 74);
+}
+
+.successMessage {
+    color: lightgreen;
+}
